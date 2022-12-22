@@ -1,4 +1,24 @@
 
+
+fetch('http://localhost:8080/productos')
+.then(response => response.json())
+.then(data => {
+  const productos = data.map((producto) => {
+    return `
+    <tr>
+      <th scope="row">${producto.id}</th>
+      <td>${producto.name}</td>
+      <td>${producto.email}</td>
+      <td>${producto.username}</td>
+    </tr>
+    `
+  }).join('')
+
+  tabla.innerHTML = productos
+})
+
+
+
 const btEnviar = document.getElementById('enviar');
 const form = document.getElementById('form');
 
@@ -31,32 +51,37 @@ btEnviar.addEventListener('click', (e)=>
 
 })
 
-        const socket = io('http://localhost:8080');
+        
+const socket = io('http://localhost:8080')
 
     //recibe el producto creado y renderiza en la tabla
-    socket.on ('productos', data => //catchear evento de socket y guardar datos
-    {
-        const productos = data.map((producto,index) =>{
-            return `
-            <tr>
-                <th scope='row'> ${producto.id} </th>
-                <td>${producto.nombre}</td>
-                <td>${producto.precio}</td>
-                <td> <img src="${producto.imagen}" alt="image" width="50px" height="50px"> </td>
-            </tr>
-            `
-        }). join('')  
+    // socket.on ('productos', data => //catchear evento de socket y guardar datos
+    // {
+    //     const productos = data.map((producto,index) =>{
+    //         return `
+    //         <tr>
+    //             <th scope='row'> ${producto.id} </th>
+    //             <td>${producto.nombre}</td>
+    //             <td>${producto.precio}</td>
+    //             <td> <img src="${producto.imagen}" alt="image" width="50px" height="50px"> </td>
+    //         </tr>
+    //         `
+    //     }). join('')  
 
-        tabla.innerHTML =  productos;
-    });
+    //     tabla.innerHTML =  productos;
+    // });
 
-    //rebe losp rouctos creados y actualiza latabla
+
+
+
+
+    //recibe los prouctos creados y actualiza latabla
 socket.on('nuevoProducto', data => {
 
     const producto = `
         <tr>
             <th scope='row'> ${data.id} </th>
-            <td>${datanombre}</td>
+            <td>${data.nombre}</td>
             <td>${data.precio}</td>
             <td> <img src="${data.imagen}" alt="image" width="50px" height="50px"> </td>
         </tr>
@@ -66,5 +91,6 @@ socket.on('nuevoProducto', data => {
 
     
     
+///////
 
    

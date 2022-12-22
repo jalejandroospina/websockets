@@ -21,11 +21,13 @@ app.use('/public', express.static('./front'));
 
 const productos=[] // array para guardar los productos
 
-io.on('conection',(socket)=>
+io.on('connection',(socket)=>
 {   console.log(`Nuevo cliente conectado`)
 
-    socket.emit('productos',productos);
+    //socket.emit('productos',productos);
 })
+
+
 
 app.get('/productos',(req, res)=> // get para obtener lista de productos agregados
 {
@@ -46,6 +48,10 @@ app.post('/productos',(req,res)=> // post para guardar los datos del formulario
 
     //evento de creacion de nuevo producto para los demas clientes
     io.sockets.emmit('nuevoProducto', producto);
+
+    return res.render('productos', {
+        productos: productos.length > 0
+      })
 
     return res.status(201).json(producto);
 })
